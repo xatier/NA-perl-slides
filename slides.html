@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Perl programming</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <style type="text/css">
+    /* Slideshow styles */
+    @import url(http://fonts.googleapis.com/css?family=Droid+Serif);
+    @import url(http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+
+    body {
+            font-family: 'Droid Serif';
+            font-size: 20px;
+          }
+          h1, h2, h3 {
+            font-family: 'Yanone Kaffeesatz';
+            font-weight: 400;
+            margin-bottom: 0;
+          }
+          h1 { font-size: 4em; }
+          h2 { font-size: 2em; }
+          h3 { font-size: 1.6em; }
+          .footnote {
+            position: absolute;
+            bottom: 3em;
+          }
+          li p { line-height: 1.25em; }
+          .red { color: #fa0000; }
+          .large { font-size: 2em; }
+          a, a > code {
+            color: rgb(249, 38, 114);
+            text-decoration: none;
+          }
+          code {
+            -moz-border-radius: 5px;
+            -web-border-radius: 5px;
+            background: #e7e8e2;
+            border-radius: 5px;
+            font-size: 16px;
+          }
+          .pull-left {
+            float: left;
+            width: 47%;
+          }
+          .pull-right {
+            float: right;
+            width: 47%;
+          }
+          .pull-right ~ p {
+            clear: both;
+          }
+          #slideshow .slide .content code {
+            font-size: 0.8em;
+          }
+          #slideshow .slide .content pre code {
+            font-size: 0.9em;
+            padding: 15px;
+          }
+          .inverse {
+            background: #272822;
+            color: #777872;
+            text-shadow: 0 0 20px #333;
+          }
+          .inverse h1, .inverse h2 {
+            color: #f3f3f3;
+            line-height: 0.8em;
+          }
+
+          /* Slide-specific styling */
+          #slide-inverse .footnote {
+            bottom: 12px;
+            left: 20px;
+          }
+          #slide-how .slides {
+            font-size: 0.9em;
+            position: absolute;
+            top:  151px;
+            right: 140px;
+          }
+          #slide-how .slides h3 {
+            margin-top: 0.2em;
+          }
+          #slide-how .slides .first, #slide-how .slides .second {
+            padding: 1px 20px;
+            height: 90px;
+            width: 120px;
+            -moz-box-shadow: 0 0 10px #777;
+            -webkit-box-shadow: 0 0 10px #777;
+            box-shadow: 0 0 10px #777;
+          }
+          #slide-how .slides .first {
+            background: #fff;
+            position: absolute;
+            top: 20%;
+            left: 20%;
+            z-index: 1;
+          }
+          #slide-how .slides .second {
+            position: relative;
+            background: #fff;
+            z-index: 0;
+          }
+
+          /* Two-column layout */
+          .left-column {
+            color: #777;
+            width: 20%;
+            height: 92%;
+            float: left;
+          }
+            .left-column h2:last-of-type, .left-column h3:last-child {
+              color: #000;
+            }
+          .right-column {
+            width: 75%;
+            float: right;
+            padding-top: 2em;
+          }
+    </style>
+  </head>
+  <body>
+    <!-- slides start from here --->
+    <textarea id="source">
+
+name: inverse
+class: center, middle, inverse
+
+Perl programming
+================
+
+![Imgur](http://i.imgur.com/4e1qnsN.jpg)
+
+## darkx ##
+
+
+##### NCTU CSCC .red[2014]  #####
+
+
+.footnote[ TIMTOWTDI - [There's more than one way to do it!](http://en.wikipedia.org/wiki/There's_more_than_one_way_to_do_it)]
+
+---
+
+Hello, world
+============
+
+```perl
+#!/usr/bin/perl
+
+use 5.014;
+say "Hello, world!";         # say hello!
+```
+
+
+- Sha-bang
+- perl 5.14+
+- `;` terminator
+
+
+---
+
+Use the right perl
+==================
+
+- `perl` is **different** from *Perl*
+
+- `/usr/ports/lang/perl5.1x` in FreeBSD
+
+- builtin in Modern Linux distros
+
+- `perl --version`
+
+
+
+---
+
+Why Perl?
+=========
+
+- Scripting language
+
+    + Making Easy Things Easy & Hard Things Possible
+
+- `perl` interpreter: compile -> interpret
+
+- General purpose
+    + Text processing
+    + Web dev
+    + Networking
+    + **System Administration**
+    + etc ...
+
+- Complete, mature ecosystem for Perl developers: [CPAN](https://metacpan.org/)
+
+- [Lazy! Lazy! Lazy!](http://threevirtues.com/)
+
+- [More](http://www.perl.org/about.html) ...
+
+
+---
+
+Hello, J4PH
+===========
+
+```perl
+#!/usr/bin/perl
+
+use 5.014;
+
+print "Ur name? ";
+my $name = <STDIN>;          # read one line and store that into $name
+chomp($name);                # remove '\n'
+say "Hello, $name!";         # variable interpolation
+```
+
+
+- `my $variable`
+- `print`
+- `say`
+- `chomp`
+- `chop`
+- `<STDIN>`
+
+
+- Remember to `chmod +x` your script.
+
+---
+
+Data types
+==========
+
+- Perl has three built-in data types:
+
+    + `$scalars`
+    + `@arrays` of scalars
+    + `%hashes` (associative arrays) of scalars
+    
+    
+    A scalar is a
+        - single string (of any size, limited only by the available memory)
+        - number
+        - or a reference to something
+
+    Arrays are
+        - ordered lists of scalars indexed by number
+        - starting with 0
+        
+    Hashes are
+        - unordered collections of scalar values
+        - indexed by their associated string key
+
+
+.footnote[http://perldoc.perl.org/perldata.html]
+
+---
+
+Data types (cont.)
+==================
+
+- All data in Perl is a scalar, an array of scalars, or a hash of scalars.
+- Variables are case-sensitive.
+- Values are usually referred to by name, or through a named reference.
+- The first character of the name tells you to what sort of data structure it refers.
+- The rest of the name tells you the particular value to which it refers.
+
+```perl
+$days             # the simple scalar value "days"
+$days[28]         # the 29th element of array @days
+$days{'Feb'}      # the 'Feb' value from hash %days
+$#days            # the last index of array @days
+
+@days             # ($days[0], $days[1],... $days[n])
+@days[3,4,5]      # same as ($days[3], $days[4], $days[5])
+@days{'a','c'}    # same as ($days{'a'}, $days{'c'})
+
+%days             # (key1, val1, key2, val2 ...)
+
+```
+
+
+.footnote[http://perldoc.perl.org/perlref.html]
+
+---
+
+How to read that?
+=================
+
+    $: the
+    @: these / those
+    %: the hash
+
+
+- Examples:
+
+```perl
+$cat       # the cat
+@cats      # those cats
+%pets      # the hash pets
+```
+
+---
+
+Context
+=======
+
+- One of the most important concept in Perl
+
+- Two major contexts: list and scalar
+
+    + and void (which means the value has been discarded).
+
+```perl
+my $scalar = 10;
+chop $scalar;
+say $scalar;         # Output: 1
+
+my @array = (11, 12, 13);
+chop @array;
+say @array;          # Output: 111
+```
+
+---
+
+Scalar
+======
+
+- A scalar may contain one single value in any of three different flavors: a number, a string(, or a reference).
+- Conversion from one form to another is transparent.
+- Perl is a contextually polymorphic language whose scalars can be strings, numbers, or references.
+- The length of an array is a scalar value.
+
+```perl
+my $scalar = 55;                # 55
+$scalar += 0.66;                # 55.66
+$scalar .= " der di yii";       # 55.66 der di yii (string concatenation)
+
+my $s1 = "QQ";
+my $s2 = 123;
+my $s3 = $s1 + $s2;             # $s3: 123, the string will turn to 0
+```
+---
+
+Scalar (cont.)
+==============
+
+- Quote
+    + Single-quoted string: no interpolation
+    + Double-quoted string: with interpolation
+    + [Escapes](http://perldoc.perl.org/perlrebackslash.html)
+    + [Quote-like operators](http://perldoc.perl.org/perlop.html#Quote-Like-Operators)
+
+```perl
+$Price = '$100';                  # not interpolated
+print "The price is $Price.\n";   # interpolated
+```
+
+- Numeric literals
+
+```perl
+12345
+12345.67
+3.14_15_92          # a very important number
+4_294_967_296       # underscore for legibility
+0xdead_beef         # hex
+0377                # octal (only numbers, begins with 0)
+0b011011            # binary
+```
+---
+
+Array & List
+============
+
+- List values are denoted by separating individual values by commas (and enclosing the list in parentheses where precedence requires it)
+- The null list is represented by ().
+- Interpolating it in a list has no effect. Thus `((),(),())` is equivalent to `()`.
+
+```perl
+@foo = ('cc', '-E', $bar);            # @foo contains ('cc', '-E', $bar)
+$foo = ('cc', '-E', $bar);            # $foo is $bar now! Careful!
+$foo = @foo;                          # $foo = 3, the length of @foo
+@foo = (1, (2, 3), 4);                # same as @foo = (1, 2, 3, 4)
+($a, $b, $c) = (1, 2, 3);             # list assignment
+(@foo, $bar) = (1, 2, 3, 4);          # swallow! @foo = (1, 2, 3, 4)
+                                      # and $bar = undef
+($b, $a) = ($a, $b);                  # swap
+(1 .. 5);                             # list constructor (1, 2, 3, 4, 5)
+(5 .. 1);                             # ()!, use 'reverse (1 .. 5)'
+```
+
+---
+Hash
+====
+
+- A hash can be initialized using a literal list holding pairs of items to be interpreted as a key and a value:
+- Use the => (fat comma) operator between key/value pairs (left-hand operand could be a bareword).
+- Object-oriented?!
+
+```perl
+# same as map assignment above
+my %map = ('red', 0x00f, 'blue', 0x0f0, 'green', 0xf00);
+
+my %map = (
+    red   => 0x00f,
+    blue  => 0x0f0,
+    green => 0xf00,
+);
+```
+---
+
+Slices
+======
+
+- A slice accesses several elements of a list, an array, or a hash simultaneously using a list of subscripts.
+- You can also assign to an array or hash slice.
+- A slice of an empty list is still an empty list.
+
+```perl
+($him, $her)   = @folks[0,-1];              # array slice
+@them          = @folks[0 .. 3];            # array slice
+($who, $home)  = @ENV{"USER", "HOME"};      # hash slice
+($uid, $dir)   = (getpwnam("daemon"))[2,7]; # list slice
+
+@days[3..5]    = qw/Wed Thu Fri/;
+@colors{'red', 'blue', 'green'} = (0xff0000, 0x0000ff, 0x00ff00);
+@folks[0, -1]  = @folks[-1, 0];
+```
+
+---
+
+Operators
+=========
+
+- Arithmetic
+    + `+, -, *, /, %, ++, --, **`
+    + `<, <=, ==, >=, >, !=`
+
+- Strings
+    + `.`: concatenation
+    + `x`: repeat
+    + `lt, le, eq, ge, gt, ne`: comparison
+
+- Logic
+    + `!, ||, &&`
+    + `not, or, and`
+
+- Bitwise
+    + `~, |, &, <<, >>`
+
+- [perlop](http://perldoc.perl.org/perlop.html#Exponentiation)
+
+---
+
+More
+====
+
+- Array out of range
+    + Element access will get `undef`
+    + Assignment will extend the array
+
+- `push, pop, reverse, sort, join`
+- `keys, values, each, delete`
+
+- undefine on variables
+
+```perl
+undef $s;   # $a = undef
+undef $a;   # @a = ()
+undef %h;   # %h = ()
+
+if (defined $blah) { ... }
+```
+
+---
+
+Predefined variables
+====================
+
+- Magic!
+
+```perl
+$_                      # read as 'it'!
+@_                      # the parameters passed to the subroutine
+$"                      # list separator
+$$                      # PID (same as in the shell)
+$0                      # program name
+$<                      # UID
+$>                      # EUID
+$(                      # GID
+$)                      # EGID
+$a, $b                  # used in 'sort'
+$1, $2, $3 ...          # used in regex matched patterns
+$`                      # pre-match
+$&                      # matched
+$'                      # post-match
+$ARGV                   # current file when reading from <>
+@ARGV                   # arg-list
+```
+
+---
+
+Predefined variables
+====================
+
+```perl
+$,                      # OFS (output field separator)
+$/                      # RS (input record separator)
+$|                      # autoflush
+$.                      # input line number
+$^E                     # extended os error
+$^W                     # warngins
+$!                      # errno
+$?                      # child return state
+$@                      # eval error
+%ENV                    # env
+%SIG                    # signal table
+@INC                    # include path
+$^O                     # OS name
+$^V                     # perl version
+
+
+
+... and much more
+```
+
+.footnote[http://perldoc.perl.org/perlvar.html]
+
+---
+
+class: center, middle, inverse
+
+Any questions?
+--------------
+
+
+---
+
+name: inverse
+class: center, middle, inverse
+
+Thanks
+======
+
+---
+
+Reference
+=========
+
+- [perldoc](http://perldoc.perl.org/)
+- [Perl Maven](http://perlmaven.com/)
+
+---
+
+Reading
+======
+
+- [Learning Perl](http://shop.oreilly.com/product/0636920018452.do)
+- [Intermediate Perl](http://shop.oreilly.com/product/0636920012689.do)
+- [Perl Best Practices](http://shop.oreilly.com/product/9780596001735.do)
+- [Programming Perl](http://shop.oreilly.com/product/9780596004927.do)
+- [Advanced Perl Programming](http://shop.oreilly.com/product/9780596004569.do)
+- [Mastering Perl](http://shop.oreilly.com/product/0636920012702.do)
+- [Perl Hacks](http://shop.oreilly.com/product/9780596526740.do)
+- [Perl Cookbook](http://shop.oreilly.com/product/9780596003135.do)
+
+
+
+
+    </textarea>
+    <script src="http://gnab.github.io/remark/downloads/remark-0.6.0.min.js" type="text/javascript">
+    </script>
+    <script type="text/javascript">
+      var slideshow = remark.create({
+          highlightStyle: 'zenburn',
+        }) ;
+    </script>
+  </body>
+</html>
+
