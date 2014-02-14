@@ -302,7 +302,7 @@ $cat       # the cat
 Context
 =======
 
-- One of the most important concept in Perl
+- One of the most important concepts in Perl
 
 - Two major contexts: list and scalar
 
@@ -456,9 +456,9 @@ More
     + Element access will get `undef`
     + Assignment will extend the array
 
+- `chomp, chop, chr, ord, oct, hex, index, rindex, substr, sprintf, lc, uc, length, s, tr`
 - `push, pop, reverse, sort, join`
 - `keys, values, each, delete`
-
 - undefine on variables
 
 ```perl
@@ -468,6 +468,8 @@ undef %h;   # %h = ()
 
 if (defined $blah) { ... }
 ```
+
+.footnote[http://perldoc.perl.org/index-functions-by-cat.html]
 
 ---
 
@@ -522,6 +524,145 @@ $^V                     # perl version
 ```
 
 .footnote[http://perldoc.perl.org/perlvar.html]
+
+---
+
+class: center, middle, inverse
+
+Control flow
+------------
+
+---
+
+- A scalar value is interpreted as `FALSE` in the Boolean sense if it is undefined, the null string or the number 0 (or its string equivalent, "0"), and `TRUE` if it is anything else.
+
+- `{ }` are needed
+
+```perl
+my $s = 3;
+
+if ($s == 1) {
+    ...
+}
+elsif ($s == 2) {              # note! elsif!
+    ...
+}
+else {
+    ...
+}
+
+unless ($s == 1) { ... }       # if (!($s == 1))
+
+while ($s % 2) { ... }
+
+until ($s % 2) { ... }
+
+say "Hello" if ($s eq "perl");
+```
+
+.footnote[http://perldoc.perl.org/perlsyn.html]
+
+---
+
+# for: two kinds of syntaxes
+
+```perl
+# C-style for
+for (my $i = 1; $i < 10; $i++) {
+    ...
+}
+
+# foreach (use $_ if ommited)
+for my $elem (@elements) {
+    $elem *= 2;
+}
+```
+
+- loop control (or you can use that with LABELs)
+
+```perl
+last             # as break in C
+
+next             # as continue in C
+
+redo
+```
+
+---
+
+subroutines
+==========
+
+- functions in other languages
+
+```perl
+sub foo {
+    my ($a, $b) = @_;          # grab two args
+    $a + $b;                   # the last value will be returned
+}
+```
+---
+
+I/O
+====
+
+- In scalar context, return the next line or undef
+- In list context, return all remaining lines as a list, end by EOF
+
+
+```perl
+while( $line = <STDIN>) {
+    # ...
+}
+while(<STDIN>) {
+    # play with $_
+}
+
+print while <>;    # This is a cat!
+
+say LIST
+print LIST
+printf LIST
+```
+
+
+---
+
+File I/O
+========
+
+```perl
+open FD, "<", "filename";     # read a file
+open FD, ">", "filename";     # write a file
+open FD, ">>", "filename";    # append to a file
+open FD, "-|", "command";     # read from shell commands
+open FD, "|-", "command";     # write to shell commands
+
+close FD;
+
+
+<FD>                          # read from a FD
+say FD "blah";                # write to a FD
+```
+
+.footnote[http://perldoc.perl.org/functions/open.html]
+
+
+---
+
+class: center, middle, inverse
+
+Regular Expression
+------------------
+
+---
+
+Regex
+=====
+
+- The most powerful part of Perl!
+
+---
 
 ---
 
