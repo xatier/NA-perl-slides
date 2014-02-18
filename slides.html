@@ -463,7 +463,7 @@ More
 
 ```perl
 undef $s;   # $a = undef
-undef $a;   # @a = ()
+undef @a;   # @a = ()
 undef %h;   # %h = ()
 
 if (defined $blah) { ... }
@@ -657,12 +657,97 @@ Regular Expression
 
 ---
 
+Pattern matching
+================
+
+
+    catabolically
+    catachrestically
+    cataclysmically
+    catallactically
+    catalytically
+    catarrhally
+    catastrophically
+    catawampously
+    catawamptiously
+    catchfly
+    catchingly
+
+---
+
+Pattern matching
+================
+
+- cat.....ly
+
+```perl
+    my @a = `cat /usr/share/dict/words`;
+    for (@a) {
+        print if /^cat.*ly/;
+    }
+```
+
+---
+
 Regex
 =====
 
 - The most powerful part of Perl!
 
+- Understanding, creating and using regular expressions ('regexes') in Perl.
+
+- Capture / filter whatever you want!
+
+- RE in Perl: define a pattern.
+
+- The UNIX utility - `g/re/p`
+
+- libpcre: [Perl Compatible Regular Expressions](http://www.pcre.org/)
+
+- [perlrequick](http://perldoc.perl.org/perlrequick.html), [perlretut](http://perldoc.perl.org/perlretut.html) !!
+
 ---
+
+
+Regular operations
+==================
+
+- Three operations: union, concatenation, star
+
+- A, B: languages
+
+    + Union: A U B = { x | x in A or x in B}
+    + Concatenation: A . B = { xy | x in A and y in B }
+    + Kleene Star: { x1x2 ... xk | k >= 0 and for-each xi in A }
+
+- Perl extents regular expression in math.
+
+---
+
+- Metacharacters
+
+
+    \        Quote the next metacharacter
+    ^        Match the beginning of the line
+    .        Match any character (except newline)
+    $        Match the end of the line
+    |        Alternation                   -> the Union operation
+    ()       Grouping
+    []       Bracketed Character class
+
+
+
+- Quantifiers
+
+
+    *           Match 0 or more times      -> the Kleene star
+    +           Match 1 or more times
+    ?           Match 1 or 0 times
+    {n}         Match exactly n times
+    {n,}        Match at least n times
+    {n,m}       Match at least n but not more than m times
+
+
 
 ---
 
