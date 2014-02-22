@@ -716,11 +716,64 @@ Regular operations
 
 - A, B: languages
 
-    + Union: A U B = { x | x in A or x in B}
-    + Concatenation: A . B = { xy | x in A and y in B }
-    + Kleene Star: { x1x2 ... xk | k >= 0 and for-each xi in A }
+    + Union:         `A | B = A or B`
+    + Concatenation: `AB    = A and then B`
+    + Kleene Star:   `A*    = zero or more A(s)`
 
 - Perl extents regular expression in math.
+
+---
+
+For example
+===========
+
+    A = good
+    B = bad
+    C = boy
+    D = girl
+
+    A             -> good
+    C             -> boy
+    AC            -> goodboy
+    A|B           -> good or bad
+    (A|B)C        -> goodboy or badboy
+    A*C           -> boy, goodboy, goodgoodboy, goodgoodgoodboy ...
+
+    (A|B)(C|D)    -> goodboy, goodgirl, badboy, badgirl
+
+- RE brings a good representation of  pattern matching
+
+
+---
+
+Using RE in Perl
+================
+
+- using the `=~` 'binding' operator
+    + `!~` the complement of `=~`
+
+- using `[]` to define a set of elements
+    + `[^]` means no in the set
+
+
+```perl
+    if ($sentence =~ /the/) {      # if $sensitive matches /the/
+    }
+
+    if (/the/) {                   # match with $_
+    }
+
+    say $blah if /pattern/;        # print it if matches /pattern/
+
+```
+
+
+    [qjk]       # Either q or j or k
+    [^qjk]      # Neither q nor j nor k
+    [a-z]       # Anything from a to z inclusive
+    [^a-z]      # No lower case letters
+    [a-zA-Z]    # Any letter
+    [a-z]+      # Any non-zero sequence of lower case letters
 
 ---
 
@@ -748,6 +801,385 @@ Regular operations
     {n,m}       Match at least n but not more than m times
 
 
+
+---
+
+Examples
+========
+
+```perl
+    t.e     # t followed by anthing followed by e
+            # This will match the
+            #                 tre
+            #                 tle
+            # but not te
+            #         tale
+    ^f      # f at the beginning of a line
+    ^ftp    # ftp at the beginning of a line
+    e$      # e at the end of a line
+    tle$    # tle at the end of a line
+    und*    # un followed by zero or more d characters
+            # This will match un
+            #                 und
+            #                 undd
+            #                 unddd (etc)
+    .*      # Any string without a newline. This is because
+            # the . matches anything except a newline and
+            # the * means zero or more of these.
+    ^$      # A line with nothing in it.
+```
+
+---
+
+Examples
+========
+
+
+    abc         # abc (that exact character sequence, but anywhere in the
+                # string)
+    ^abc        # abc at the beginning of the string
+    abc$        # abc at the end of the string
+    ab{2,4}c    # an a followed by two, three or four b’s followed by a
+                # abbc, abbbc, abbbbc
+    
+    ab{2,}c     # an a followed by at least two b’s followed by a c
+                # abbc, abbbc, abbbbc, abbbbbc, ...
+    
+    ab*c        # an a followed by any number (zero or more) of b’s followe
+                # by a c
+                # ac, abc, abbc, abbbc, abbbbc, ...
+    
+    ab+c        # an a followed by one or more b’s followed by a
+                # abc, abbc, abbbc, abbbbc, ...
+
+---
+
+
+- charset
+
+
+    \w          # Match a "word" character (alphanumeric plus "_", plus
+                #                    other connector punctuation chars plus Unicode
+                #                    marks)
+    \W          # Match a non-"word" character
+    \s          # Match a whitespace character
+    \S          # Match a non-whitespace character
+    \d          # Match a decimal digit character
+    \D          # Match a non-digit character
+
+
+- grouping
+
+
+    /(a|b)b/;                   # matches 'ab' or 'bb'
+    /(ac|b)b/;                  # matches 'acb' or 'bb'
+    /(^a|b)c/;                  # matches 'ac' at start of string or 'bc' anywhere
+    /(a|[bc])d/;                # matches 'ad', 'bd', or 'cd'
+    /house(cat|)/;              # matches either 'housecat' or 'house'
+    /house(cat(s|)|)/;          # matches either 'housecats' or 'housecat' or
+                                # 'house'.  Note groups can be nested.
+    /(19|20|)\d\d/;             # match years 19xx, 20xx, or the Y2K problem, xx
+    "20" =~ /(19|20|)\d\d/;     # matches the null alternative '()\d\d',
+                                # because '20\d\d' can't match
+
+---
+
+grouping
+========
+
+```perl
+    # extract hours, minutes, seconds
+    if ($time =~ /(\d\d):(\d\d):(\d\d)/) {    # match hh:mm:ss format
+        $hours = $1;
+        $minutes = $2;
+        $seconds = $3;
+    }
+
+
+    /(ab(cd|ef)((gi)|j))/;
+     1  2      34
+
+    $x = "the cat in the hat";
+    $x =~ /^(.*)(cat)(.*)$/; # matches,
+                             # $1 = 'the '
+                             # $2 = 'cat'
+                             # $3 = ' in the hat'
+
+```
+
+---
+
+Search and replace
+==================
+
+- `s/regexp/replacement/`
+
+
+```perl
+    $x = "Time to feed the cat!";
+    $x =~ s/cat/hacker/;   # $x contains "Time to feed the hacker!"
+    if ($x =~ s/^(Time.*hacker)!$/$1 now!/) {
+        $more_insistent = 1;
+    }
+    $y = "'quoted words'";
+    $y =~ s/^'(.*)'$/$1/;  # strip single quotes,
+                           # $y contains "quoted words"
+
+    $x = "I batted 4 for 4";
+    $x =~ s/4/four/;   # doesn't do it all:
+                       # $x contains "I batted four for 4"
+    $x = "I batted 4 for 4";
+    $x =~ s/4/four/g;  # does it all:
+                       # $x contains "I batted four for four"
+
+```
+
+---
+
+split
+=====
+
+- split a scalar (string) by re
+
+
+    split /PATTERN/,EXPR,LIMIT
+    split /PATTERN/,EXPR
+    split /PATTERN/
+    split
+
+
+    #!/usr/bin/perl
+
+    use 5.014;
+
+    open PW, "<", "/etc/passwd";
+
+    while (<PW>) {
+        my @arr = split /:/;
+        say @arr[0,2];
+    }
+
+    close PW;
+
+
+    $ perl -nE 'my @a=split /:/; say "$a[0] $a[2]"' /etc/passwd
+
+
+http://perldoc.perl.org/functions/split.html
+
+---
+
+Get output from commands
+========================
+
+```perl
+#!/usr/bin/perl
+
+
+use 5.014;
+
+my @ping = `ping -c 5 linux1.cs.nctu.edu.tw | tail -n +2 | head -n 5`;
+
+my $max = 0;
+my $min = 1e10;
+my $sum = 0;
+
+# 64 bytes from 140.113.235.151: icmp_seq=0 ttl=52 time=16.353 ms
+for my $line (@ping) {
+    if ($line =~ /time=(\d*\.\d*)/) {
+        $max = $1 > $max ? $1 : $max;
+        $min = $1 < $min ? $1 : $min;
+        $sum += $1;
+    }
+}
+
+
+say $sum/5;
+say $max;
+say $min;
+
+```
+
+---
+
+More Perlish
+============
+
+```perl
+#!/usr/bin/perl
+
+
+use 5.014;
+use List::Util qw/sum max min/;
+
+my @ping = `ping -c 5 linux1.cs.nctu.edu.tw | tail -n +2 | head -n 5`;
+
+my @times = ();
+
+# 64 bytes from 140.113.235.151: icmp_seq=0 ttl=52 time=16.353 ms
+for (@ping) {
+   push @times, $1 if /time=(\d*\.\d*)/;
+}
+
+
+say "@times";
+say (sum(@times)/5);
+say max @times;
+say min @times;
+```
+
+---
+Taiwan ID card No.
+==================
+
+```perl
+#!/usr/bin/perl
+
+use 5.014;
+
+while (<>) {
+    chomp;
+    if (length != 10) {
+        say (length);
+        say "must be 10 digits!";
+        next;
+    }
+    elsif (!/^[A-Z]\d{9}$/) {
+        say "wrong format!";
+        next;
+    }
+    else {
+        check($_);
+    }
+}
+
+```
+
+---
+
+```perl
+sub check {
+
+    my $id = shift;
+    my @digits = split //, $id;
+
+    if ($digits[0] =~ /[ABCDEFGH]/) {
+        $digits[0] = (ord($digits[0]) - 55);
+    }
+    elsif ($digits[0] =~ /[JKLMN]/) {
+        $digits[0] = (ord($digits[0]) - 56);
+    }
+    elsif ($digits[0] =~ /[PQRSTUV]/) {
+        $digits[0] = (ord($digits[0]) - 57);
+    }
+    elsif ($digits[0] =~ /[XYWZIO]/) {
+        $digits[0] =~ y/XYWZIO/0-5/;
+        $digits[0] += 30;
+    }
+    else {
+        say "bang!";
+    }
+
+    my $sum = int($digits[0] / 10) + ($digits[0] % 10) * 9;
+    $sum += $digits[$_] * (9-$_) for (1 .. 8);
+    $sum += $digits[9];
+
+    say ($sum % 10 == 0 ? "valid" : "invalid");
+
+}
+```
+
+---
+
+My ip
+=====
+
+```perl
+#!/usr/bin/perl
+
+use 5.014;
+
+use LWP::Simple;
+my $d = get("https://www.esolutions.se/whatsmyinfo");
+$d =~ /<div class="col-md-8">(\d+\.\d+\.\d+\.\d+)<\/div>/;
+my $ip = $1;
+say $ip;
+
+
+
+use LWP::UserAgent;
+my $ua = LWP::UserAgent->new;
+$ua->agent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_1) AppleWebKit
+/537.36 (KHTML, like Gecko) Chrome/33.0.1750.117 Safari/537.36');
+
+$d = $ua->get("https://www.esolutions.se/whatsmyinfo");
+$d->decoded_content =~ /<div class="col-md-8">(\d+\.\d+\.\d+\.\d+)<\/div>/;
+$ip = $1;
+say $ip;
+```
+---
+
+socket programming
+==================
+
+- server
+
+```perl
+#!/usr/bin/perl
+
+use 5.014;
+use IO::Socket;
+
+my $server = "127.0.0.1";
+my $sock = new IO::Socket::INET ( LocalHost => $server, LocalPort => 6667,
+                                  Proto => 'tcp', Listen => 5, Reuse => 1)
+or die "ERROR in Socket Creation : $!\n";
+
+# accept a connection from client
+while (my $client = $sock->accept()) {
+    $client->autoflush(1);
+    say "accept a connetion!";
+    while (<$client>) {
+        print $client "--> $_";
+        print "--> $_";
+    }
+    $client->close;
+}
+
+$sock->close;
+```
+
+---
+
+socket programming
+==================
+
+- client
+
+```perl
+#!/usr/bin/perl
+
+use 5.014;
+use IO::Socket;
+
+my $server = "127.0.0.1";
+
+# connect to the IRC server.
+my $sock = new IO::Socket::INET(PeerAddr => $server,
+                                PeerPort => 6667,
+                                Proto => 'tcp',
+                                Blocking  => 1) or die "Can't connect\n";
+
+print $sock "blah\n";
+
+while (<$sock>) {
+    print $sock "c --> $_";
+    print "c --> $_";
+}
+
+$sock->close;
+
+```
 
 ---
 
