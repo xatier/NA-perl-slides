@@ -136,7 +136,7 @@ Perl programming
 ##### NCTU CSCC .red[2014]  #####
 
 
-.footnote[ TIMTOWTDI - [There's more than one way to do it!](http://en.wikipedia.org/wiki/There's_more_than_one_way_to_do_it)]
+.footnote[ TIMTOWTDI - [There's more than one way to do it!](http://en.wikipedia.org/wiki/There's_more_than_one_way_to_do_it) ]
 
 ---
 
@@ -249,7 +249,7 @@ Data types
         - indexed by their associated string key
 
 
-.footnote[http://perldoc.perl.org/perldata.html]
+.footnote[ http://perldoc.perl.org/perldata.html ]
 
 ---
 
@@ -277,7 +277,7 @@ $#days            # the last index of array @days
 ```
 
 
-.footnote[http://perldoc.perl.org/perlref.html]
+.footnote[ http://perldoc.perl.org/perlref.html ]
 
 ---
 
@@ -469,7 +469,7 @@ undef %h;   # %h = ()
 if (defined $blah) { ... }
 ```
 
-.footnote[http://perldoc.perl.org/index-functions-by-cat.html]
+.footnote[ http://perldoc.perl.org/index-functions-by-cat.html ]
 
 ---
 
@@ -523,7 +523,7 @@ $^V                     # perl version
 ... and much more
 ```
 
-.footnote[http://perldoc.perl.org/perlvar.html]
+.footnote[ http://perldoc.perl.org/perlvar.html ]
 
 ---
 
@@ -560,7 +560,7 @@ until ($s % 2) { ... }
 say "Hello" if ($s eq "perl");
 ```
 
-.footnote[http://perldoc.perl.org/perlsyn.html]
+.footnote[ http://perldoc.perl.org/perlsyn.html ]
 
 ---
 
@@ -609,8 +609,8 @@ my $ret = foo(1, 2);           # $ret = 3
 I/O
 ====
 
-- In scalar context, return the next line or undef
-- In list context, return all remaining lines as a list, end by EOF
+- In scalar context, return the next line or undef.
+- In list context, return all remaining lines as a list, end by EOF.
 
 
 ```perl
@@ -650,7 +650,7 @@ say FD "blah";                # write to a FD
 say "blah";                   # write to STDOUT
 ```
 
-.footnote[http://perldoc.perl.org/functions/open.html]
+.footnote[ http://perldoc.perl.org/functions/open.html ]
 
 
 ---
@@ -725,7 +725,7 @@ Regular operations
     + Concatenation: `AB    = A and then B`
     + Kleene Star:   `A*    = zero or more A(s)`
 
-- Perl extents regular expression in math.
+- Perl extents the regular expression in math.
 
 ---
 
@@ -746,7 +746,7 @@ For example
 
     (A|B)(C|D)    # goodboy, goodgirl, badboy, badgirl
 
-- RE brings a good representation of  pattern matching.
+- RE brings a good representation for pattern matching.
 
 
 ---
@@ -754,7 +754,7 @@ For example
 Using RE in Perl
 ================
 
-- using the `=~` 'binding' operator
+- using `=~` the 'binding' operator
     + `!~` the complement of `=~`
 
 - using `[]` to define a set of elements
@@ -967,11 +967,10 @@ split
 
     close PW;
 
-
     $ perl -nE 'my @a=split /:/; say "$a[0] $a[2]"' /etc/passwd
 ```
 
-http://perldoc.perl.org/functions/split.html
+- http://perldoc.perl.org/functions/split.html
 
 ---
 
