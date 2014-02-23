@@ -302,7 +302,7 @@ $cat       # the cat
 Context
 =======
 
-- One of the most important concepts in Perl
+- One of the most important concepts in Perl.
 
 - Two major contexts: list and scalar
 
@@ -369,7 +369,7 @@ print "The price is $Price.\n";   # interpolated
 Array & List
 ============
 
-- List values are denoted by separating individual values by commas (and enclosing the list in parentheses where precedence requires it)
+- List values are denoted by separating individual values by commas (and enclosing the list in parentheses where precedence requires it).
 - The null list is represented by ().
 - Interpolating it in a list has no effect. Thus `((),(),())` is equivalent to `()`.
 
@@ -391,7 +391,7 @@ Hash
 ====
 
 - A hash can be initialized using a literal list holding pairs of items to be interpreted as a key and a value:
-- Use the => (fat comma) operator between key/value pairs (left-hand operand could be a bareword).
+- Use the `=>` (fat comma) operator between key/value pairs (left-hand operand could be a bareword).
 - Object-oriented?!
 
 ```perl
@@ -600,6 +600,9 @@ sub foo {
     my ($a, $b) = @_;          # grab two args
     $a + $b;                   # the last value will be returned
 }
+
+my $ret = foo(1, 2);           # $ret = 3
+
 ```
 ---
 
@@ -642,7 +645,9 @@ close FD;
 
 
 <FD>                          # read from a FD
+<>                            # read from STDIN
 say FD "blah";                # write to a FD
+say "blah";                   # write to STDOUT
 ```
 
 .footnote[http://perldoc.perl.org/functions/open.html]
@@ -732,16 +737,16 @@ For example
     C = boy
     D = girl
 
-    A             -> good
-    C             -> boy
-    AC            -> goodboy
-    A|B           -> good or bad
-    (A|B)C        -> goodboy or badboy
-    A*C           -> boy, goodboy, goodgoodboy, goodgoodgoodboy ...
+    A             # good
+    C             # boy
+    AC            # goodboy
+    A|B           # good or bad
+    (A|B)C        # goodboy or badboy
+    A*C           # boy, goodboy, goodgoodboy, goodgoodgoodboy ...
 
-    (A|B)(C|D)    -> goodboy, goodgirl, badboy, badgirl
+    (A|B)(C|D)    # goodboy, goodgirl, badboy, badgirl
 
-- RE brings a good representation of  pattern matching
+- RE brings a good representation of  pattern matching.
 
 
 ---
@@ -917,20 +922,20 @@ Search and replace
 
 ```perl
     $x = "Time to feed the cat!";
-    $x =~ s/cat/hacker/;   # $x contains "Time to feed the hacker!"
+    $x =~ s/cat/hacker/;         # $x contains "Time to feed the hacker!"
     if ($x =~ s/^(Time.*hacker)!$/$1 now!/) {
         $more_insistent = 1;
     }
     $y = "'quoted words'";
-    $y =~ s/^'(.*)'$/$1/;  # strip single quotes,
-                           # $y contains "quoted words"
+    $y =~ s/^'(.*)'$/$1/;        # strip single quotes,
+                                 # $y contains "quoted words"
 
     $x = "I batted 4 for 4";
-    $x =~ s/4/four/;   # doesn't do it all:
-                       # $x contains "I batted four for 4"
+    $x =~ s/4/four/;             # doesn't do it all:
+                                 # $x contains "I batted four for 4"
     $x = "I batted 4 for 4";
-    $x =~ s/4/four/g;  # does it all:
-                       # $x contains "I batted four for four"
+    $x =~ s/4/four/g;            # does it all:
+                                 # $x contains "I batted four for four"
 
 ```
 
@@ -942,6 +947,7 @@ split
 - split a scalar (string) by re
 
 
+```perl
     split /PATTERN/,EXPR,LIMIT
     split /PATTERN/,EXPR
     split /PATTERN/
@@ -963,7 +969,7 @@ split
 
 
     $ perl -nE 'my @a=split /:/; say "$a[0] $a[2]"' /etc/passwd
-
+```
 
 http://perldoc.perl.org/functions/split.html
 
@@ -1091,6 +1097,51 @@ sub check {
 
 ---
 
+cpan
+====
+
+- Comprehensive Perl Archive Network
+
+    + 129,527 Perl modules
+    + 11,253 authors
+
+- [doc on cpan.org](http://www.cpan.org/modules/INSTALL.html)
+
+- [cpanminus](https://metacpan.org/pod/App::cpanminus)
+
+```bash
+$ sudo cpanm LWP::Simple
+```
+
+- [perlreftut](http://perldoc.perl.org/perlreftut.html)
+
+- http://www.youtube.com/watch?v=3C7Ngq6bM4M
+
+---
+
+Some useful CPAN modules
+========================
+
+    DBI
+    Data::Dumper
+    Net::SCP
+    Mail::Sendmail
+    LWP::UserAgent
+    WWW::Mechanize
+    Net::FTP
+    GD::Graph
+    Net::Telnet
+    Parallel::ForkManager
+    NetPacket::*
+    AnyEvent
+    Mojoliciou
+    JSON
+    WWW::Shorten::TinyURL
+    List::MoreUtils
+    PSGI/Plack
+
+---
+
 My ip
 =====
 
@@ -1117,6 +1168,103 @@ $d->decoded_content =~ /<div class="col-md-8">(\d+\.\d+\.\d+\.\d+)<\/div>/;
 $ip = $1;
 say $ip;
 ```
+
+---
+
+youtube.pl
+==========
+
+```perl
+#!/usr/bin/perl
+
+use 5.014;
+no warnings;
+use WWW::Mechanize;
+use Getopt::Std;
+
+our $opt_n;
+getopts('n:');
+
+my $keywords = join("+", @ARGV);
+my $limit = $opt_n // 6;
+
+if ($keywords eq "") {
+    say <<EOF;
+    Usage:
+        ./u2b.pl keywords
+        ./u2b.pl -n 3 keywords
+
+        default n = 6
+EOF
+    exit;
+}
+
+```
+
+---
+
+youtube.pl
+==========
+
+```perl
+# new Mechanize
+my $mech = WWW::Mechanize->new();
+
+# youtube query URL
+my $url = "http://www.youtube.com/results?hl=en&search_query=$keywords";
+say "try to search for $limit results ...\n" . $url . "\n\n";
+
+$mech->get( $url );
+
+# http://www.youtube.com/watch?v=XXXXXXXXXXX
+my $ref = $mech->find_all_links( url_regex => qr/watch\?v=/i );
+
+
+# for all valid video links
+for (@$ref) {
+    if ($_->url() =~ /watch\?v=.{11}/ and $_->text() !~ /Watch Later/) {
+        say $_->url_abs();
+        say $_->text();
+        $limit--;
+    }
+    last if not $limit;
+}
+```
+
+---
+
+xferlog parser
+==============
+
+```perl
+#!/usr/bin/perl
+#
+#
+#Dec 21 17:07:08 nat235 pure-ftpd: (?@192.168.0.15) [INFO] ioi32 is now logged in
+
+use 5.014;
+
+system('sudo cat /var/log/xferlog | grep "logged" | grep "Dec 22" > log1');
+
+my %table = ();
+
+# record src IP
+open F, "<", "log1";
+while (<F>) {
+    my @line = split;
+    $table{$line[7]} //= [];
+    if (not $line[5] ~~ @{$table{$line[7]}}) {
+        push $table{$line[7]}, $line[5];
+    }
+}
+close F;
+
+for (sort keys %table) {
+    say "$_ @{$table{$_}}";
+}
+
+```
+
 ---
 
 socket programming
@@ -1149,7 +1297,6 @@ while (my $client = $sock->accept()) {
 $sock->close;
 ```
 
----
 
 socket programming
 ==================
